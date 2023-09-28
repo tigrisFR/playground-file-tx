@@ -16,6 +16,11 @@ def index():
 @bp.route('/test', methods=['GET'])
 def test_route():
     return jsonify({"message": "Test route!"})
+  
+@bp.route('/test-jwt', methods=['GET'])
+@jwt_required()
+def test_route():
+    return jsonify({"message": "Test route! you have a valid JWT"})
 
 # Signup Route
 @bp.route('/signup', methods=['POST'])
