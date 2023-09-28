@@ -5,6 +5,7 @@ from flask import Blueprint, request, send_from_directory, jsonify
 from werkzeug.utils import secure_filename
 from app import db, models, config
 import os
+import uuid # for randomizing file names
 
 bp = Blueprint('routes', __name__)
 
@@ -55,21 +56,33 @@ def upload_file():
     if file.filename == '':
         return jsonify({"error": "No selected file"}), 400
     if file and allowed_file(file.filename):
-        filename = secure_filename(file.filename)
-        filepath = os.path.join(config.Config.UPLOAD_FOLDER, filename)
-        file.save(filepath)
+        original_filename = secure_filename(file.filename)
+        extension = original_filename.rsplit('.', 1)[1].lower()
+        filename = f"{uuid.uuid4()}.{extension}"
         
-        new_file = models.File(name=filename, path=filepath)
+        filepath = os.path.join(config.Config.UPLOAD_FOLDER, filename)
+        try:
+          file.save(filepath)
+          os.chmod(filepath, 0o644) # prevent file from being executed
+        except Exception as e:
+            return jsonify({"error": f"File save error: {str(e)}"}), 500
+        
+        new_file = models.File(name=filename, original_name=original_filename,, path=filepath)
         db.session.add(new_file)
         db.session.commit()
-
+        
         return jsonify({"message": "File uploaded successfully", "file_id": new_file.id})
+    
+    return jsonify({"error": "Invalid file type"}), 400
 
 @bp.route('/download/<int:file_id>', methods=['GET'])
 @jwt_required()
 def download_file(file_id):
     file = models.File.query.get_or_404(file_id)
-    return send_from_directory(config.Config.UPLOAD_FOLDER, file.name)
+    response = send_from_directory(config.Config.UPLOAD_FOLDER, file.name)
+    # Add Content-Disposition header
+    response.headers["Content-Disposition"] = f"attachment; filename={file.original_name}"
+    return response
 
 @bp.route('/list', methods=['GET'])
 @jwt_required()

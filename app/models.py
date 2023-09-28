@@ -6,6 +6,7 @@ class File(db.Model):
     name = db.Column(db.String(80), nullable=False)
     path = db.Column(db.String(200), nullable=False)
     uploaded_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    original_name = db.Column(db.String(255), nullable=False)
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
