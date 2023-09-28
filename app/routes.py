@@ -5,6 +5,7 @@ from flask import Blueprint, request, send_from_directory, jsonify
 from werkzeug.utils import secure_filename
 from app import db, models, config
 import os
+import sys
 import uuid # for randomizing file names
 
 bp = Blueprint('routes', __name__)
@@ -12,6 +13,10 @@ bp = Blueprint('routes', __name__)
 @bp.route('/', methods=['GET'])
 def index():
     app.logger.debug(f"1 visit")
+    print('\n1 visit')
+    sys.stdout.write('\n')
+    sys.stdout.write('1 visit')
+    sys.stdout.write('\n')
     return "Welcome! you may want to visit /list, /upload or /download/<file_id>"
 
 @bp.route('/test', methods=['GET'])
