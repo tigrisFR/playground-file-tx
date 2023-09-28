@@ -19,7 +19,7 @@ def test_route():
   
 @bp.route('/test-jwt', methods=['GET'])
 @jwt_required()
-def test_route():
+def test_jwt_route():
     return jsonify({"message": "Test route! you have a valid JWT"})
 
 # Signup Route
@@ -66,6 +66,7 @@ def upload_file():
         filename = f"{uuid.uuid4()}.{extension}"
         
         filepath = os.path.join(config.Config.UPLOAD_FOLDER, filename)
+        print(f"Saving file to: {filepath}")
         try:
           file.save(filepath)
           os.chmod(filepath, 0o644) # prevent file from being executed
