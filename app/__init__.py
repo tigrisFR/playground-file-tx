@@ -1,14 +1,16 @@
+from app import config
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
+import logging
 
 db = SQLAlchemy()
 jwt = JWTManager()
 
 def create_app():
     app = Flask(__name__)
-    app.config.from_object('app.config.Config')
+    app.config.from_object('config.Config')
     
     # Initializing extensions
     db.init_app(app)
@@ -25,6 +27,7 @@ def create_app():
     # Register your blueprints 
     from . import routes
     app.register_blueprint(routes.bp)
+    app.logger.setLevel(logging.DEBUG)
     
 
     return app
