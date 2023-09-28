@@ -12,11 +12,7 @@ bp = Blueprint('routes', __name__)
 
 @bp.route('/', methods=['GET'])
 def index():
-    app.logger.debug(f"1 visit")
-    print('\n1 visit')
-    sys.stdout.write('\n')
-    sys.stdout.write('1 visit')
-    sys.stdout.write('\n')
+    #current_app.logger.debug(f"1 visit")
     return "Welcome! you may want to visit /list, /upload or /download/<file_id>"
 
 @bp.route('/test', methods=['GET'])
@@ -71,18 +67,18 @@ def upload_file():
         extension = original_filename.rsplit('.', 1)[1].lower()
         filename = f"{uuid.uuid4()}.{extension}"
         
-        app.logger.debug(f"file name: {original_filename}, new name={filename} ")
+        #current_app.logger.debug(f"file name: {original_filename}, new name={filename} ")
         
         filepath = os.path.join(config.Config.UPLOAD_FOLDER, filename)
-        app.logger.debug(f"About to save file to: {filepath}")
+        #current_app.logger.debug(f"About to save file to: {filepath}")
         try:
-          app.logger.debug(f"Saving file to: {filepath}")
+          #current_app.logger.debug(f"Saving file to: {filepath}")
           file.save(filepath)
           os.chmod(filepath, 0o644) # prevent file from being executed
         except Exception as e:
             return jsonify({"error": f"File save error: {str(e)}"}), 500
         
-        app.logger.debug(f"Saving metadata to db: {filepath}")
+        #current_app.logger.debug(f"Saving metadata to db: {filepath}")
         new_file = models.File(name=filename, original_name=original_filename, path=filepath)
         db.session.add(new_file)
         db.session.commit()

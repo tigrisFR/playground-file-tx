@@ -3,7 +3,6 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
-import logging
 
 db = SQLAlchemy()
 jwt = JWTManager()
@@ -27,7 +26,6 @@ def create_app():
     # Register your blueprints 
     from . import routes
     app.register_blueprint(routes.bp)
-    app.logger.setLevel(logging.DEBUG)
     
 
     return app
