@@ -1,11 +1,10 @@
 from werkzeug.security import generate_password_hash, check_password_hash
-from app.missing_imports import safe_str_cmp
+from p3app.missing_imports import safe_str_cmp
+from p3app import db, models, config
 from flask_jwt_extended import create_access_token, jwt_required
 from flask import Blueprint, request, send_from_directory, jsonify
 from werkzeug.utils import secure_filename
-from app import db, models, config
 import os
-import sys
 import uuid # for randomizing file names
 
 bp = Blueprint('routes', __name__)

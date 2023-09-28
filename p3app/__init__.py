@@ -1,4 +1,4 @@
-from app import config
+from p3app import config
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
@@ -9,7 +9,7 @@ jwt = JWTManager()
 
 def create_app():
     app = Flask(__name__)
-    app.config.from_object('app.config.Config')
+    app.config.from_object('p3app.config.Config')
     
     # Initializing extensions
     db.init_app(app)
