@@ -8,4 +8,4 @@ class Config:
     ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'mp4', 'mp3']) # Extend as necessary
     #JWT_CSRF_CHECK_FORM = False # Disabling CSRF for simplicity. Revisit in production.
     #JWT_CSRF_IN_COOKIES = False
-    JWT_SECRET_KEY = process.env.JWT_SECRET_KEY
+    JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY')
