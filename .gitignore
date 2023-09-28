@@ -1,3 +1,18 @@
 .glitchdotcom.json
 .node-gyp
 node_modules
+
+# Python
+__pycache__/
+*.py[cod]
+*.log
+*.db
+
+# Virtual environment
+venv/
+
+# IDEs and editors
+*.idea/
+.vscode/
+*.swp
+*.swo
