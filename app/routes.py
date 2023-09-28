@@ -67,7 +67,7 @@ def upload_file():
         except Exception as e:
             return jsonify({"error": f"File save error: {str(e)}"}), 500
         
-        new_file = models.File(name=filename, original_name=original_filename,, path=filepath)
+        new_file = models.File(name=filename, original_name=original_filename, path=filepath)
         db.session.add(new_file)
         db.session.commit()
         
