@@ -1,12 +1,14 @@
 from p3app import config
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
 from dotenv import load_dotenv
 from flask_cors import CORS
 
 db = SQLAlchemy()
 jwt = JWTManager()
+migrate = Migrate()
 
 def create_app():
     app = Flask(__name__)
@@ -29,5 +31,7 @@ def create_app():
     from . import routes
     app.register_blueprint(routes.bp)
     
+    # Flask-Migrate initialization
+    migrate.init_app(app, db)
 
     return app

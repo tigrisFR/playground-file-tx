@@ -29,13 +29,26 @@ def test_jwt_route():
 def signup():
     username = request.json.get('username', None)
     password = request.json.get('password', None)
+    invite_code = request.json.get('invite_code', None)
     
     if not username or not password:
         return jsonify({"error": "Missing username or password"}), 400
     
+    if not invite_code:
+        return jsonify({"error": "Missing invite code"}), 400
+    
+    # Check if the invite_code is valid in your database
+    valid_invite = models.InviteCode.query.filter_by(code=invite_code, used=False).first()
+    if not valid_invite:
+        return jsonify({"error": "Invalid or already used invitation code"}), 403
+    
     hashed_password = generate_password_hash(password, method='sha256')
     new_user = models.User(username=username, password=hashed_password)
     db.session.add(new_user)
+
+    # Mark the invitation code as used
+    valid_invite.used = True
+    
     db.session.commit()
 
     return jsonify({"message": "User created successfully"}), 201
