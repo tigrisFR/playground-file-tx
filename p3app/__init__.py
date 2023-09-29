@@ -10,18 +10,18 @@ jwt = JWTManager()
 def create_app():
     app = Flask(__name__)
     app.config.from_object('p3app.config.Config')
+
+    allowed_origins = [
+        "https://tigrisfr.github.io",     # GitHub Page
+        #"https://0e4a-3-145-169-115.ngrok-free.app", # ngrok tunnel to expose HTTPS 
+    # Add any other IPs or domains as needed
+    ] 
+    CORS(app, resources={r"/*": {"origins": allowed_origins}}) # Allowing all origins for simplicity.
+    #CORS(app) # allow all origins
     
     # Initializing extensions
     db.init_app(app)
     jwt.init_app(app)
-
-    allowed_origins = [
-        "https://tigrisfr.github.io",     # GitHub Page
-    # Add any other IPs or domains as needed
-    ] 
-
-    CORS(app, resources={r"/*": {"origins": allowed_origins
-    }}) # Allowing all origins for simplicity.
 
     # Register your blueprints 
     from . import routes

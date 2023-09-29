@@ -1,3 +1,7 @@
+# Uploaded files
+uploads/*
+
+# Node, relic from  glitch 
 .glitchdotcom.json
 .node-gyp
 node_modules
