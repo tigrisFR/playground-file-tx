@@ -1,6 +1,9 @@
 # Uploaded files
 uploads/*
 
+# Python env variables
+.env
+
 # Node, relic from  glitch 
 .glitchdotcom.json
 .node-gyp

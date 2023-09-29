@@ -2,6 +2,7 @@ from p3app import config
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
+from dotenv import load_dotenv
 from flask_cors import CORS
 
 db = SQLAlchemy()
@@ -9,6 +10,7 @@ jwt = JWTManager()
 
 def create_app():
     app = Flask(__name__)
+    load_dotenv() # load JWT_SECRET_KEY from python env variables
     app.config.from_object('p3app.config.Config')
 
     allowed_origins = [
