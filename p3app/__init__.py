@@ -13,7 +13,7 @@ def create_app():
 
     allowed_origins = [
         "https://tigrisfr.github.io",     # GitHub Page
-        #"https://0e4a-3-145-169-115.ngrok-free.app", # ngrok tunnel to expose HTTPS 
+        #"https://curious-manatee-guiding.ngrok-free.app", # ngrok tunnel to expose HTTPS 
     # Add any other IPs or domains as needed
     ] 
     CORS(app, resources={r"/*": {"origins": allowed_origins}}) # Allowing all origins for simplicity.
