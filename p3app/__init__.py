@@ -16,7 +16,7 @@ def create_app():
         #"https://curious-manatee-guiding.ngrok-free.app", # ngrok tunnel to expose HTTPS 
     # Add any other IPs or domains as needed
     ] 
-    CORS(app, resources={r"/*": {"origins": allowed_origins}}) # Allowing all origins for simplicity.
+    CORS(app, resources={r"/*": {"origins": allowed_origins}})
     #CORS(app) # allow all origins
     
     # Initializing extensions
