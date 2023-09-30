@@ -7,7 +7,7 @@ It is a lightweight backend to test upload/download files.
 As of now, everything is stored on the host environment disk.
 It uses:
   - Python3 + Flask
-  - SQL db for storing files metadata
+  - SQL db for storing files metadata, Users and Invite Codes
   - disk for file storage
   - JWT for auth
 
@@ -35,3 +35,9 @@ or if you don't have a stable domain:</br>
 - start your back-end app via `python run.py` (don't forget to `source myenv/bin/activate` and `deactivate` your venv before and after)
 
 Then you'll be able to have clients make request to your back-end via the HTTPS endpoint exposed by your ngrok tunnel, **but don't forget to update the list of allowed origins in your *__init__.py*:** `CORS(app, resources={r"/*": {"origins": allowed_origins}})`
+
+## Additional considerations:
+
+For the authentication via JWT bearer token to work, scripts assume a `JWT_SECRET_KEY=df6d8g...` (no need for quotes) is provided in an python .env file in the project root directory.
+Similarily for generating invite codes, the local commands provided by *local_utils_invite_codes.py* assume that a `INVITATION_MASTER_KEY` is provided in the same .env file.
+The commands in local_utils_invite_codes.py allow to locally generate and retrieve invitation codes stored in the app's DB.
