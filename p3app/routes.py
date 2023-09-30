@@ -33,6 +33,9 @@ def signup():
     
     if not username or not password:
         return jsonify({"error": "Missing username or password"}), 400
+    existing_user = models.User.query.filter_by(username=username).first()
+    if existing_user:
+        return jsonify({"error": "User already exists"}), 400
     
     if not invite_code:
         return jsonify({"error": "Missing invite code"}), 400
@@ -113,7 +116,16 @@ def download_file(file_id):
 @jwt_required()
 def list_files():
     files = models.File.query.all()
-    return jsonify([{"id": file.id, "name": file.name, "uploaded_at": file.uploaded_at} for file in files])
+    response_data = [
+        {
+            "id": file.id,
+            "name": file.name,
+            "uploaded_at": file.uploaded_at,
+            "original_name": file.original_name
+        } 
+        for file in files
+    ]
+    return jsonify(response_data)
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in config.Config.ALLOWED_EXTENSIONS
